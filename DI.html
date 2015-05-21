@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var injector = {
+            dependencies: {
+
+            },
+            register: function (name, obj){
+                this.dependencies[name] = obj;
+            },
+            invoke: function (fn){
+                //arguments
+                var arr = fn.toString().match(/^([^(]+)\(([^)]+)/);
+
+                var params = [];
+                console.log(arr);
+                if (arr[2]) {
+                    params = arr[2].split(',').map(function (param) {
+                        return param.trim();
+                    });
+                }
+
+               /* return {
+                    name: arr[1],
+                    params: params
+                }*/
+            }
+        };
+        injector.register('car', {
+           make: 'BMW'
+        });
+        injector.register('person', {
+            name: 'Rashmika'
+        });
+        function test(car, lic, vin, person){
+            console.log(person.name, ' -order form for -', car.name, 'lic: ', lic, 'vin:', vin);
+        }
+        injector.invoke(test, 'hd3434jn', '43429203934935');
+    </script>
+</head>
+<body>
+
+</body>
+</html>

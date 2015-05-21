@@ -1,0 +1,67 @@
+*{
+    margin: 0;
+    padding:0;
+    font: 200 1em 'Helvetica Neue'
+}
+
+div.container:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+section{
+    float: left;
+    border: 1px solid grey;
+
+}
+section:first-child{
+    width: 10%
+}
+
+section.content{
+    overflow: hidden;
+}
+button{
+    padding: 0.35em;
+    margin: 1em;
+    width: 5em;
+    display: block;
+}
+
+.widget{
+    width: 15em;
+    height: 10em;
+    border: 2px solid grey;
+    margin: 1em;
+    background-color: lightgray;
+}
+.widget > p {
+    align-content: center;
+}
+.widget > div {
+    padding: 1em;
+}
+
+.left{
+    float:left;
+}
+.right{
+    float: right;
+}
+
+a{
+    /*text-decoration: none;
+    color: black;
+    cursor: pointer;*/
+}
+
+.rNum{
+    text-align: center;
+    font-size: 4em;
+    padding: 1em;
+}
+
+.header{
+    border-bottom: 2px solid grey;
+}
