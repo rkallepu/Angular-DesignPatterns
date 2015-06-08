@@ -49,13 +49,23 @@
                 }
             }
 
-        }).directive('mydirective', function () {
+        }).directive('mydirective', function ($interval) {
             return {
                 restrict: 'AEC',
-                scope: false,
+                template: '<div>{{number}}<button ng-click="play()">Play</button></div>',
+                scope: {
+                    paused='@',
+                        positive='@'
+                },
                 link: function (scope,elements, attributes) {
                     //console.log(attributes);
                     console.log(elements[0]);
+                    scope.number = ~~(Math.random() * 99);
+                    //fire the interval based on play and pause
+                    scope.play = function (){
+                        //fire $interval
+                        //change the scope.number
+                    }
                     elements[0].addEventListener('click', function (event) {
                        /* console.log('Paused');
                         console.log('current target ',event.currentTarget);

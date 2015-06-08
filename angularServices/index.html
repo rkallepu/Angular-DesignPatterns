@@ -1,0 +1,42 @@
+<!Doctype html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script>
+        /*angular.module('myApp',[]).run(function (Github){
+            Github.sayHello();
+        }).service('Github', function(){
+            this.sayHello = function () {
+                console.log('Hello World!');
+            };
+        });*/
+
+
+        angular.module('myApp',[])
+                .config(function (GithubProvider, key_b){
+                    console.log(GithubProvider);
+                    //console(key_a);
+                    console.log(key_b);
+                })
+                .provider('Github', GithubProviderConstructor)
+                //.value('key_a', 'a')    //value cannot be added in the config phase
+                .constant('key_b', 'b');
+
+        function GithubFactoryFunction(){
+            return {
+                    sayHello: function (){
+                        console.log('Hello Wolrd!');
+                    }
+            }
+        }
+        function GithubProviderConstructor(){
+            this.$get = GithubFactoryFunction;
+        }
+
+    </script>
+</head>
+<body>
+</body>
+</html>
