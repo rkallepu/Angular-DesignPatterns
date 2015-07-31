@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Memo</title>
+
+    <script>
+        function MemoAjax(param, callback){
+            MemoAjax.cache=MemoAjax.cache || {};
+            if(typeof MemoAjax.cache[param] ===  'undefined'){
+                console.log('put in cache');
+                var xhr= new XMLHttpRequest();
+                xhr.open('GET', param);
+                xhr.addEventListener('readystatechange', function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        MemoAjax.cache[param] =xhr;
+                        callback(MemoAjax.cache[param])
+                    }
+                });
+                xhr.send();
+            }else{
+                console.log('return from cache');
+                callback(MemoAjax.cache[param]);
+            }
+        }
+        MemoAjax('https://api.github.com/search/repositories?q=nodejs', function(xhr){
+            console.log(JSON.parse(xhr.responseText));
+        });
+        MemoAjax('https://api.github.com/search/repositories?q=nodejs', function(xhr){
+            console.log(JSON.parse(xhr.responseText));
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

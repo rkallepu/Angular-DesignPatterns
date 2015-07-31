@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Chaining</title>
+    <script>
+        var $ = (function(fn){
+            /*return {*/
+            fn.prototype.addClass= function(className){
+                this.element.className=className;
+                return this;
+            };
+            fn.prototype.attr=  function (attributeName, attributeValue){
+                this.element.setAttribute(attributeName, attributeValue);
+                return this;
+            };
+            fn.prototype.appendTo= function (parent){
+                parent.appendChild(this.element);
+                return this;
+            };
+            fn.prototype.html =function(cont){
+                this.element.innerHTML=cont;
+                return this;
+            };
+            return fn;
+        })(function _$(inp){
+            if(!(this instanceof _$)){
+                var tag = /<([^>]+)/gmi.exec(inp)[1];
+                var element = document.createElement(tag);
+                console.log(element, tag);
+                console.log('exec $ func, not const');
+                console.log('created dom, invoking $');
+                return new _$(element);
+            }
+            else{
+                console.log('Exec $ constr');
+                this.element = inp;
+            }
+        });
+        //$('<div>')
+        document.addEventListener('DOMContentLoaded', function () {
+            $('<div>').addClass('Person').appendTo(document.body).attr('data-name', 'Raymond').html('Raymond\'s div')
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

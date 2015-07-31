@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Pub - Sub</title>
+    <script>
+        function Publisher(events){
+            this.events =events;
+        }
+        Publisher.prototype.publish = function(event){
+            this.events[event].forEach(function(fns){fns();});
+            //this.events.dispatchEvent(event)
+        };
+        function Subscriber(user){
+            this.user = user;
+        }
+        Subscriber.prototype.subscribe = function(user, event, fn){
+            user.events[event].push(fn);
+        };
+        var carEvents = {
+            stop: [],
+            start: []
+        };
+        var carPub = new Publisher(carEvents);
+        var brakelight = new Subscriber('brakelight');
+        var engine = new Subscriber('engine');
+        var brakes = new Subscriber('brakes');
+        engine.subscribe(carPub, 'stop', function(){
+            console.log('stop event engine');
+        });
+        brakelight.subscribe(carPub, 'stop', function(){
+            console.log('stop event brakelight');
+        });
+        brakes.subscribe(carPub, 'stop', function(){
+            console.log('stop event brake');
+        });
+        carPub.publish('stop');
+        carPub.publish('stop');
+    </script>
+</head>
+<body>
+
+</body>
+</html>

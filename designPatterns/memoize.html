@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Memoize</title>
+    <script>
+        var fact =function (n){
+            if(n <1) return 1;
+            return n*fact(n-1);
+        };
+        function memoize(fn){
+            var cache ={
+            };
+            return function() {
+                var args = Array.prototype.slice.call(arguments);
+                var hash = args.reduce(function (hash, curr) {
+                    hash += (curr === Object(curr)) ? JSON.stringify(curr) : curr;
+                    return hash;
+                }, '');
+                if (typeof cache[hash] === 'undefined') {
+                    console.log('not in cache');
+                    cache[hash] = fn.apply(null, args);
+                }
+                console.log(cache);
+                return cache[hash];
+            }
+        }
+        var fact_mem = memoize(function(n){
+            if(n <1) return 1;
+            return n*fact_mem(n-1);
+        });
+        console.log(fact_mem(5));
+        console.log(fact_mem(5));
+        console.log(fact_mem(10));
+    </script>
+</head>
+<body>
+
+</body>
+</html>

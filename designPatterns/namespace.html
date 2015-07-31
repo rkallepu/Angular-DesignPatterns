@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>NameSpace</title>
+
+    <script>
+        var Github = (function (_url){
+            return {
+                get url(){
+                    return _url;
+                },
+                init: function (str){
+                    var nsStrs= str.split('.');
+                    if(nsStrs.length===0) {return}
+                    if(nsStrs[0] ==='Github') nsStrs.shift();
+                    var parent = Github;
+                    for(var i = 0; i< nsStrs.length;i++){
+                        if(typeof parent[nsStrs[i]]==='undefined'){
+                            parent[nsStrs[i]] ={
+                            };
+                        }
+                        parent = parent[nsStrs[i]];
+                    }
+                    /*return nsStrs.reduce(function(parent,prop){
+                     if(typeof parent[prop]==='undefined'){
+                     parent[prop] ={}
+                     }
+                     parent = parent[prop]
+                     return parent
+                     })*/
+                }
+            };
+        }('https://api.github.com/'));
+        Github.init('Github.search.repositories');
+        Github.init('Github.security.search.apikey');
+        Github.init('Github.search.users');
+        console.log(Github);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Pub - Sub</title>
+    <script>
+        function Publisher( events){
+            this.events =events;
+        }
+        Publisher.prototype.publish = function( event){
+            dispatchEvent(this.events[event]);
+            // this.events[event].forEach(function(fns){fns();});
+            //this.events.dispatchEvent(event)
+        };
+        function Subscriber(user){
+            this.user = user;
+        }
+        Subscriber.prototype.subscribe = function(pub, event, fn){
+            addEventListener(event, fn)
+        };
+        var carEvents = {
+            stop: new CustomEvent('stop',{ detail:{value: 'stop'}}),
+            start: new CustomEvent('start',{  detail:{value: 'start'}})
+        };
+        var carPub = new Publisher(carEvents);
+        var brakelight = new Subscriber('brakelight');
+        var engine = new Subscriber('engine');
+        var brakes = new Subscriber('brakes');
+        engine.subscribe(carPub, 'stop', function(e){
+            console.log( e.detail['value']+' engine');
+        });
+        brakelight.subscribe(carPub, 'stop', function(e){
+            console.log(e.detail['value']+' brakelight');
+        });
+        brakes.subscribe(carPub, 'stop', function(e){
+            console.log(e.detail['value']+' brake');
+        });
+        engine.subscribe(carPub, 'start', function(e){
+            console.log(e.detail['value']+' engine');
+        });
+        brakelight.subscribe(carPub, 'start', function(e){
+            console.log(e.detail['value']+' brakelight');
+        });
+        brakes.subscribe(carPub, 'start', function(e){
+            console.log(e.detail['value']+' brake');
+        });
+        carPub.publish('stop');
+        carPub.publish('start');
+        carPub.events.go = new CustomEvent('go',{  detail:{value: 'go'}});
+        // carPub.publish('stop')
+        engine.subscribe(carPub, 'go', function(e){
+            console.log(e.detail['value']+' brake');
+        });
+        carPub.publish('go');
+        console.log(window);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
