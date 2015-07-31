@@ -1,2 +1,1 @@
-# magellan-May-20
-Angular
+# Commonly used Design Patterns - Practise
