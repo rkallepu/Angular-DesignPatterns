@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Dependency Injection - Inversion of Control</title>
+    <script>
+        var move = function (car, name) {
+            // car is a dependency and name is a parameter
+            console.log(car.speed());
+        };
+        var DI = {
+            dependencies: {},
+
+            inject: function (depService) {
+                var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
+                var text = depService.toString();
+                var args = text.match(FN_ARGS)[1].split(',');
+                console.log(args);
+                depService.apply(depService, this.resolve(args));
+            },
+            resolve: function (args) {
+                var self = this;
+                return args.map(function(value) {
+                    return self.dependencies[value];
+                });
+            },
+            register: function (name, dependency){
+                this.dependencies[name] = dependency;
+            }
+        };
+        var car = {
+            speed: function () {
+                console.log('You are now moving in a Car');
+            }
+        }
+        DI.register('car',car);
+        DI.inject(move);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -2,10 +2,10 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Factory</title>
+    <title>Factory Pattern</title>
     <script>
-        var cars = ['Audi', 'Toyota', 'Nissan'];
-        Factory= (function(){
+        var cars = ['Audi', 'Toyota', 'Nissan'],
+            Factory = (function(){
             function CarFactory(constr){
                 return new CarFactory.constructors[constr]();
             }
@@ -22,10 +22,57 @@
                     this.make = 'nissan'
                 }
             };
-            // var
+
+                var Car = CarFactory.constructors['Car'];
+                Car.prototype.drive = function () {
+                    console.log('vroom...');
+                };
+                // make all constructors inherit from Car
+                for(var prop in CarFactory.constructors){
+                    if(prop !== 'Car'){
+                        CarFactory.constructors[prop].prototype = new Car();
+                        CarFactory.constructors[prop].prototype.constructor = CarFactory.constructors[prop];
+                    }
+                }
+                return CarFactory;
         })();
-        console.log(Factory('Audi'));
+
+        console.log(Factory('Audi').drive());
+        console.log(Factory('Toyota').drive());
+        console.log(Factory('Nissan').drive());
     </script>
+    <!--<script>
+        var carMaker = function () { };
+        carMaker.prototype.drive = function (){
+          return "Vroom, I have " + this.doors + " doors";
+        };
+        carMaker.factory = function (type) {
+            var constr = type,newCar;
+            if(typeof carMaker[constr] !== "function"){
+                console.log('Error - No such Object available in the factory');
+            }
+            if(typeof carMaker[constr].prototype.drive !== 'function') {
+                carMaker[constr].prototype = new carMaker();
+            }
+            newCar = new carMaker[constr]();
+            return newCar;
+        };
+        carMaker.Compact = function () {
+            this.doors = 4;
+        };
+        carMaker.Convertible = function () {
+            this.doors = 2;
+        };
+        carMaker.SUV = function () {
+            this.doors = 7;
+        };
+        var corolla = carMaker.factory('Compact');
+        var solstice = carMaker.factory('Convertible');
+        var cherokee = carMaker.factory('SUV');
+        console.log(corolla.drive());
+        console.log(solstice.drive());
+        console.log(cherokee.drive());
+    </script>-->
 </head>
 <body>
 

@@ -2,11 +2,10 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Singleton</title>
-
-    <script>
+    <title>Singleton Pattern</title>
+    <!--<script>
         function Singleton(){
-            var self=this;
+            var self = this;
             if(typeof Singleton.instance === 'undefined') {
                 Object.defineProperty(Singleton, 'instance', {
                     get: function () {
@@ -19,6 +18,101 @@
         var c = new Singleton();
         var x = new Singleton();
         console.log( c === x);
+    </script>-->
+    <!--<script>
+        //instance is a public variable - so it could be changed
+        function Universe(){
+            if(typeof Universe.instance === 'object'){
+                return Universe.instance;
+            }
+            Universe.instance = this;
+            return this;
+        }
+        var uni1 = new Universe();
+        var uni2 = new Universe();
+        console.log(uni1 === uni2);
+    </script>-->
+    <script>
+        // first time returns new object - second or third time the rewritten Universe function which stores the
+        //instance variable in a closure returns it
+        //disadvantage - Rewritten function will loose any properties that are added to it between the moment of its
+        //initial definition and the redefinition
+        /*function Universe(){
+            var instance = this;
+            Universe = function () {
+                return instance;
+            };
+        }
+        var uni1 = new Universe();
+        var uni2 = new Universe();
+        console.log(uni1 === uni2);*/
+
+
+        /*function Universe(){
+            var instance = this;
+            Universe = function () {
+                return instance;
+            };
+         }
+        Universe.prototype.nothing = true;
+         var uni1 = new Universe();
+        Universe.prototype.everything = false;
+         var uni2 = new Universe();
+         console.log(uni1 === uni2); //true
+        console.log(uni1.nothing);  //true
+        console.log(uni2.nothing);  //true
+        console.log(uni1.everything);   //undefined
+        console.log(uni2.everything);   //undefined
+        console.log(uni1.constructor.name); //Universe
+        console.log(uni1.constructor === Universe); //false*/
+
+        //Getting the prototype and constructor working as expected
+
+        /*function Universe() {
+            var instance;
+            Universe = function Universe() {
+                return instance;
+            };
+            Universe.prototype = this;
+
+            instance = new Universe();
+
+            instance.constructor = Universe;
+            return instance;
+        }
+        Universe.prototype.nothing = true;
+        var uni1 = new Universe();
+        Universe.prototype.everything = false;
+        var uni2 = new Universe();
+        console.log(uni1 === uni2); //true
+        console.log(uni1.nothing);  //true
+        console.log(uni2.nothing);  //true
+        console.log(uni1.everything);   //false
+        console.log(uni2.everything);   //false
+        console.log(uni1.constructor.name); //Universe
+        console.log(uni1.constructor === Universe); //true*/
+
+        //Another way of doing this is to implement a immediately invoked function
+
+        var Universe;
+        (function () {
+            var instance;
+            Universe = function Universe () {
+                if(instance) return instance;
+                instance = this;
+            };
+        })();
+        Universe.prototype.nothing = true;
+        var uni1 = new Universe();
+        Universe.prototype.everything = false;
+        var uni2 = new Universe();
+        console.log(uni1 === uni2); //true
+        console.log(uni1.nothing);  //true
+        console.log(uni2.nothing);  //true
+        console.log(uni1.everything);   //false
+        console.log(uni2.everything);   //false
+        console.log(uni1.constructor.name); //Universe
+        console.log(uni1.constructor === Universe); //true
     </script>
 </head>
 <body>
