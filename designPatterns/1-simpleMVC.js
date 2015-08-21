@@ -1,4 +1,4 @@
-alert('inside the JS file');
+//alert('inside the JS file');
 // model constructor
 // params - data, Object
 
